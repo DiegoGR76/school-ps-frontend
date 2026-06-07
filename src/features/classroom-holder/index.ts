@@ -1,2 +1,2 @@
-export { ClassroomHolderPage } from './pages/ClassroomHolderPage';
-export type * from './model/types';
+export * from './api/request';
+export * from './model/types';
