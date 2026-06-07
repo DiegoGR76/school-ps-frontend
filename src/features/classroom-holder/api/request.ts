@@ -5,7 +5,9 @@ export const getAuthHeaders = (): HeadersInit => {
 
 const REQUEST_TIMEOUT_MS = 10000;
 
-export const withTimeout = async <T>(request: (signal: AbortSignal) => Promise<T>): Promise<T> => {
+export const withTimeout = async <T>(
+  request: (signal: AbortSignal) => Promise<T>,
+): Promise<T> => {
   const controller = new AbortController();
   const timeoutId = window.setTimeout(() => {
     controller.abort();
@@ -15,8 +17,11 @@ export const withTimeout = async <T>(request: (signal: AbortSignal) => Promise<T
     return await request(controller.signal);
   } catch (error) {
     if (error instanceof DOMException && error.name === 'AbortError') {
-      throw new Error('La solicitud tardo demasiado. Intente nuevamente.');
+      throw new Error('La solicitud tardó demasiado. Intente nuevamente.', {
+        cause: error,
+      });
     }
+
     throw error;
   } finally {
     window.clearTimeout(timeoutId);
