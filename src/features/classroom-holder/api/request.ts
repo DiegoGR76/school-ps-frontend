@@ -5,9 +5,7 @@ export const getAuthHeaders = (): HeadersInit => {
 
 const REQUEST_TIMEOUT_MS = 10000;
 
-export const withTimeout = async <T>(
-  request: (signal: AbortSignal) => Promise<T>,
-): Promise<T> => {
+export const withTimeout = async <T>(request: (signal: AbortSignal) => Promise<T>): Promise<T> => {
   const controller = new AbortController();
   const timeoutId = window.setTimeout(() => {
     controller.abort();
