@@ -1,5 +1,6 @@
 import { DataTable } from '@/shared/ui/molecules/DataTable';
 import { INVENTORY_COLUMNS } from '@/entities/inventory/ui/inventory-columns';
+import { Button } from '@/shared/ui/atoms/Button';
 import type { Inventory } from '@/entities/inventory/model/types';
 
 export interface InventorySectionProps {
@@ -13,8 +14,12 @@ export interface InventorySectionProps {
   onSelectItem: (item: Inventory) => void;
   onNewItem: () => void;
   onEditItem: () => void;
+  onMaintenance?: () => void;
+  onImport?: () => void;
   editLabel?: string;
   newLabel?: string;
+  maintenanceLabel?: string;
+  importLabel?: string;
   editDisabledTitle?: string;
   emptyMessage?: string;
 }
@@ -30,25 +35,39 @@ export const InventorySection = ({
   onSelectItem,
   onNewItem,
   onEditItem,
+  onMaintenance,
+  onImport,
   editLabel = 'Editar Ítem',
   newLabel = 'Nuevo Ítem',
+  maintenanceLabel = 'Mantenimiento',
+  importLabel = 'Importar',
   editDisabledTitle = 'Selecciona un ítem de la tabla para editarlo',
   emptyMessage = 'No se encontraron ítems',
 }: InventorySectionProps) => (
   <div className="table-section">
     <div className="inventory-header">
       <div className="inventory-header-buttons">
-        <button
-          className="btn-edit-item"
+        {onMaintenance && (
+          <Button variant="secondary" onClick={onMaintenance}>
+            {maintenanceLabel}
+          </Button>
+        )}
+        {onImport && (
+          <Button variant="outline" onClick={onImport}>
+            {importLabel}
+          </Button>
+        )}
+        <Button
+          variant="ghost"
           onClick={onEditItem}
           disabled={!selectedItem}
           title={!selectedItem ? editDisabledTitle : undefined}
         >
           {editLabel}
-        </button>
-        <button className="btn-new-item" onClick={onNewItem}>
+        </Button>
+        <Button variant="primary" onClick={onNewItem}>
           {newLabel}
-        </button>
+        </Button>
       </div>
     </div>
 
